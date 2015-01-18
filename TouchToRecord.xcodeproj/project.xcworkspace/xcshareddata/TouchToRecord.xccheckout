@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F3796187-328A-4A1E-B16D-572FE29ED8E2</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TouchToRecord</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6E1349D9CD71406487AF6E865E70239B63D78B3E</key>
+		<string>https://github.com/coryl/Touch-To-Record-Video.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TouchToRecord.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6E1349D9CD71406487AF6E865E70239B63D78B3E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/coryl/Touch-To-Record-Video.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>6E1349D9CD71406487AF6E865E70239B63D78B3E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6E1349D9CD71406487AF6E865E70239B63D78B3E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Touch-To-Record-Video</string>
+		</dict>
+	</array>
+</dict>
+</plist>
