@@ -1,6 +1,8 @@
 # Touch To Record Video
 My barebones prototype of a feature similar to Vine's / Instagram's touch to record video. This will allow you to record short clips on touch down, pause upon release, and automatically stitch them all together when complete.
 
+![ScreenShot](http://giant.gfycat.com/ApprehensiveSimpleCrossbill.gif)
+
 # How to Use
 Set `maximumTimeLimit` and run the app. It was written programmatically based on `self.view.frame.size.width` so it should build for any iPhone. If you don't want square videos, simply modify `previewLayer.frame` and don't run `cropVideo:`
 
