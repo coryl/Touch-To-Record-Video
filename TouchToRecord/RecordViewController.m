@@ -46,6 +46,70 @@
     [self.xButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.xButton addTarget:self action:@selector(clearVideo) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.xButton];
+    
+    self.switchCameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.switchCameraButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];
+    [self.switchCameraButton setFrame:CGRectMake(self.view.frame.size.width - 42, 10, 32, 32)];
+    [self.switchCameraButton addTarget:self action:@selector(switchCamera) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.switchCameraButton];
+}
+
+-(void)switchCamera{
+    //Change camera source
+    if(session)
+    {
+        //Indicate that some changes will be made to the session
+        [session beginConfiguration];
+        
+        //Remove existing input. Go through all the current inputs, which includes microphone and one camera. Identify that camera type:
+        AVCaptureInput *currentCameraInput;
+        for(AVCaptureInput *currentInput in session.inputs){
+            if(((AVCaptureDeviceInput*)currentInput).device.position == AVCaptureDevicePositionBack || ((AVCaptureDeviceInput*)currentInput).device.position == AVCaptureDevicePositionFront)
+            {
+                //Found either the front cam or back cam
+                currentCameraInput = currentInput;
+            }
+
+        }
+        
+        [session removeInput:currentCameraInput];
+        
+        //Get new input
+        AVCaptureDevice *newCamera = nil;
+        if(((AVCaptureDeviceInput*)currentCameraInput).device.position == AVCaptureDevicePositionBack)
+        {
+            NSLog(@"selecting front camera");
+            newCamera = [self cameraWithPosition:AVCaptureDevicePositionFront];
+        }
+        else
+        {
+            NSLog(@"selecting back camera");
+            newCamera = [self cameraWithPosition:AVCaptureDevicePositionBack];
+        }
+        
+        //Add input to session
+        NSLog(@"trying to add input to session");
+        AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:newCamera error:nil];
+        [session addInput:newVideoInput];
+        
+        //Commit all the configuration changes at once
+        [session commitConfiguration];
+    }
+}
+
+// Find a camera with the specified AVCaptureDevicePosition, returning nil if one is not found
+- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
+{
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices)
+    {
+        if ([device position] == position){
+            NSLog(@"found a device at position");
+            return device;
+        }
+        
+    }
+    return nil;
 }
 
 -(void)timerLoop{

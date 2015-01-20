@@ -31,6 +31,10 @@
 @property BOOL maximumLimitReached;
 @property BOOL minimumLimitReached;
 
+@property UIButton *switchCameraButton;
+
 @property UIButton *xButton;
+
+- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position;
 
 @end

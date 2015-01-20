@@ -21,6 +21,7 @@
 		CEC0CCE01A64969700F47F4B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC0CCDF1A64969700F47F4B /* QuartzCore.framework */; };
 		CEC0CCE61A649E8400F47F4B /* RecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC0CCE51A649E8400F47F4B /* RecordViewController.m */; };
 		CEC0CD0F1A6B547000F47F4B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC0CD0E1A6B547000F47F4B /* MBProgressHUD.m */; };
+		CEC0CD131A6DD75000F47F4B /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEC0CD121A6DD75000F47F4B /* camera@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		CEC0CCE51A649E8400F47F4B /* RecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordViewController.m; sourceTree = "<group>"; };
 		CEC0CD0D1A6B547000F47F4B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		CEC0CD0E1A6B547000F47F4B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		CEC0CD121A6DD75000F47F4B /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				CEC0CCE51A649E8400F47F4B /* RecordViewController.m */,
 				CEC0CD0D1A6B547000F47F4B /* MBProgressHUD.h */,
 				CEC0CD0E1A6B547000F47F4B /* MBProgressHUD.m */,
+				CEC0CD121A6DD75000F47F4B /* camera@2x.png */,
 				CEC0CCB91A64965000F47F4B /* Main.storyboard */,
 				CEC0CCBC1A64965000F47F4B /* Images.xcassets */,
 				CEC0CCBE1A64965000F47F4B /* LaunchScreen.xib */,
@@ -230,6 +233,7 @@
 				CEC0CCBB1A64965000F47F4B /* Main.storyboard in Resources */,
 				CEC0CCC01A64965000F47F4B /* LaunchScreen.xib in Resources */,
 				CEC0CCBD1A64965000F47F4B /* Images.xcassets in Resources */,
+				CEC0CD131A6DD75000F47F4B /* camera@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +449,7 @@
 				CEC0CCD11A64965000F47F4B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEC0CCD21A64965000F47F4B /* Build configuration list for PBXNativeTarget "TouchToRecordTests" */ = {
 			isa = XCConfigurationList;
@@ -453,6 +458,7 @@
 				CEC0CCD41A64965000F47F4B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
