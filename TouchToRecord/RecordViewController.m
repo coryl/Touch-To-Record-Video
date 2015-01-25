@@ -49,7 +49,7 @@
     
     self.switchCameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.switchCameraButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];
-    [self.switchCameraButton setFrame:CGRectMake(self.view.frame.size.width - 42, 10, 32, 32)];
+    [self.switchCameraButton setFrame:CGRectMake(self.view.frame.size.width - 42, 10, 42, 42)];
     [self.switchCameraButton addTarget:self action:@selector(switchCamera) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.switchCameraButton];
 }
@@ -176,6 +176,7 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
       fromConnections:(NSArray *)connections
                 error:(NSError *)error
 {
+    
     BOOL RecordedSuccessfully = YES;
     if ([error code] != noErr)
     {
@@ -188,18 +189,11 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
     }
     if (RecordedSuccessfully)
     {
-        AVAsset *asset = [AVAsset assetWithURL:outputFileURL];
-        Float64 assetDuration = CMTimeGetSeconds(asset.duration);
-        NSNumber *clipDuration = [NSNumber numberWithFloat:assetDuration];
-        NSURL *clipURL = outputFileURL;
-        
-        NSDictionary *clipDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  clipURL, @"url",
-                                  clipDuration, @"duration",
-                                  nil];
-        
-        [self.clipCollection addObject:clipDict];
-        if(self.maximumLimitReached) [self mergeAllVideos];
+        [self cropVideo:outputFileURL];
+
+        if(self.maximumLimitReached){
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        }
     }
 }
 
@@ -215,7 +209,8 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
     
     // make it square
     AVMutableVideoComposition* videoComposition = [AVMutableVideoComposition videoComposition];
-    videoComposition.renderSize = CGSizeMake(clipVideoTrack.naturalSize.height, clipVideoTrack.naturalSize.height);
+    CGSize renderSize =  CGSizeMake(clipVideoTrack.naturalSize.height, clipVideoTrack.naturalSize.height);
+    videoComposition.renderSize = renderSize;
     videoComposition.frameDuration = CMTimeMake(1, 60);
     
     AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
@@ -252,23 +247,19 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
 
 -(void)exportDidFinish:(AVAssetExportSession *)exportSession{
     if (exportSession.status == AVAssetExportSessionStatusCompleted) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
         AVAsset *asset = [AVAsset assetWithURL:exportSession.outputURL];
-        //NSLog(@"final video length is %f", CMTimeGetSeconds(asset.duration));
-        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:asset];
-        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
-        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
-        [avPlayerLayer setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width)];
-        [self.view.layer addSublayer:avPlayerLayer];
-        [avPlayer seekToTime:kCMTimeZero];
+        Float64 assetDuration = CMTimeGetSeconds(asset.duration);
+        NSNumber *clipDuration = [NSNumber numberWithFloat:assetDuration];
+        NSURL *clipURL = exportSession.outputURL;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(playerItemDidReachEnd:)
-                                                     name:AVPlayerItemDidPlayToEndTimeNotification
-                                                   object:[avPlayer currentItem]];
+        NSDictionary *clipDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  clipURL, @"url",
+                                  clipDuration, @"duration",
+                                  nil];
         
-        [avPlayer play];
+        [self.clipCollection addObject:clipDict];
+        
+        if(self.maximumLimitReached) [self mergeAllVideos];
     }
 }
 
@@ -285,7 +276,6 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
 }
 
 -(void)mergeAllVideos{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [session stopRunning];
     // 1 - Create AVMutableComposition object. This object will hold your AVMutableCompositionTrack instances.
     AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
@@ -324,7 +314,23 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
     mergeExporter.shouldOptimizeForNetworkUse = YES;
     [mergeExporter exportAsynchronouslyWithCompletionHandler:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self cropVideo:fileURL];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+            AVAsset *asset = [AVAsset assetWithURL:mergeExporter.outputURL];
+            //NSLog(@"final video length is %f", CMTimeGetSeconds(asset.duration));
+            avPlayerItem =[[AVPlayerItem alloc]initWithAsset:asset];
+            avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
+            avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
+            [avPlayerLayer setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width)];
+            [self.view.layer addSublayer:avPlayerLayer];
+            [avPlayer seekToTime:kCMTimeZero];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(playerItemDidReachEnd:)
+                                                         name:AVPlayerItemDidPlayToEndTimeNotification
+                                                       object:[avPlayer currentItem]];
+            
+            [avPlayer play];
         });
     }];
 }
