@@ -1,5 +1,5 @@
 # Touch To Record Video
-My barebones prototype of a feature similar to Vine's / Instagram's touch to record video. This will allow you to record short clips on touch down, pause upon release, and automatically stitch them all together when complete.
+(This is an experimental UI/UX design project for fun). My barebones prototype of a feature similar to Vine's / Instagram's touch to record video. This will allow you to record short clips on touch down, pause upon release, and automatically stitch them all together when complete.
 
 ![ScreenShot](http://giant.gfycat.com/ApprehensiveSimpleCrossbill.gif)
 
